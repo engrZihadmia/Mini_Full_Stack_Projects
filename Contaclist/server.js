@@ -1,12 +1,23 @@
 const express= require('express')
 const mongoose=require('mongoose')
 const dotenv=require('dotenv')
+const contactRoutes= require('./routes')
 dotenv.config()
 const app=express()
 
 const PORT=process.env.PORT||8000;
 const mongoDbUrl=process.env.mongoDbUrl;
 
+app.use(express.json())
+
+app.get('/', (req,res)=>{
+    res.send({
+        "Message":"Contact page"
+    })
+})
+
+
+app.use(contactRoutes)
 
 const CreateServer=async(mongoDbUrl, PORT)=>{
 
