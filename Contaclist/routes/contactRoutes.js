@@ -5,7 +5,7 @@ let {getContactControllers,addContactController,deleteContactController, updateC
 
 Router.get('/contacts', getContactControllers)
 Router.post('/contacts', addContactController)
-Router.delete('/contacts/:id', deleteContactController)
+Router.get('/contacts/delete/:id', deleteContactController)
 Router.put('/contacts/:id', updateContactController)
 
 module.exports= Router;

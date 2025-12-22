@@ -1,15 +1,16 @@
 let Contact = require('../model/contactModel')
 
+let Alldata=()=>{
+    return Contact.find()
+}
 
 module.exports.getContactControllers=async(req, res)=>{
 
     try{
+        let AllContact= await Alldata()
 
-        let AllContact= await Contact.find()
         console.log(AllContact)
-    res.json({
-        "data": AllContact
-       })   
+   res.render('index', {Contacts:AllContact}) 
 
     }
 
@@ -27,16 +28,36 @@ module.exports.getContactControllers=async(req, res)=>{
 module.exports.addContactController=async(req,res)=>{
 
     const {name,email,phone}=req.body;
+    let id=req.body.id
 
+     if(id){
+
+        
     try{
+            let updateContact= await Contact.findByIdAndUpdate(id,{name, email,phone}, {new: true} )
+             console.log(AllContact)
+            res.render('index', {Contact:AllContact})
+          console.log("Contact is Updated", updateContact)
+    }
+
+      catch(err){
+      
+ res.json(err)
+    }
+
+    }else{
+
+           try{
+
+        
         let newContact= new Contact({
             name,email,phone
         })
 
         await newContact.save()
-
+   let AllContact= await Alldata()
         console.log("New user Created Successfully", newContact)
-        res.json(newContact)
+        res.render('index', {Contacts:AllContact}) 
     }
 
     catch(err){
@@ -44,6 +65,10 @@ module.exports.addContactController=async(req,res)=>{
 
         res.json(err)
     }
+    }
+
+   
+ 
 
 
 }
@@ -55,11 +80,12 @@ try{
 
     let deleteContact=await Contact.findByIdAndDelete(id)
 
-    console.log('Contact Deleted Successfully!')
+      let AllContact= await Alldata()
 
-    res.json({
-        "Message" : "Succeesfully Deleted"
-    })
+        console.log(AllContact)
+   res.render('index', {Contacts:AllContact}) 
+
+   
 
 }
 
