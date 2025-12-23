@@ -1,3 +1,3 @@
 const ContactRotes = require('./contactRoutes')
 
-module.exports= ContactRotes
+module.exports = ContactRotes
